@@ -67,6 +67,7 @@
             android:textColor="@color/colorWhite" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/google_sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
