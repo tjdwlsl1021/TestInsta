@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "408695334101",
+    "project_id": "testinsta-ef8b8",
+    "storage_bucket": "testinsta-ef8b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408695334101:android:ac84c88a11378d4d3f6e5c",
+        "android_client_info": {
+          "package_name": "com.example.testinsta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408695334101-ocsegti61ml90mhgt34jcurhufnfgaa9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnQ4L8O6BaTtsDap4I2AtA_siaI5dGlTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408695334101-ocsegti61ml90mhgt34jcurhufnfgaa9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
