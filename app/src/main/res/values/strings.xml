@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">TestInsta</string>
-    <string name="facebook_app_id">873009302900995</string>
-    <string name="fb_login_protocol_scheme">fb873009302900995</string>
+    <string name="facebook_app_id">652309969229116</string>
+    <string name="fb_login_protocol_scheme">fb652309969229116</string>
+
+
 
     <!-- Sign In -->
     <string name="email">Email</string>
