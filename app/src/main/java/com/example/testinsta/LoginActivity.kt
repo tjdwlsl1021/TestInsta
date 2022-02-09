@@ -138,8 +138,12 @@ class LoginActivity : AppCompatActivity() {
         val request = GraphRequest.newMeRequest(
             token
         ) { `object`, response ->
-            // Insert your code here®
             // user info
+
+            // logout
+            LoginManager.getInstance().logOut();
+
+            // move page
             start<MainActivity>()
         }
 
@@ -172,6 +176,11 @@ class LoginActivity : AppCompatActivity() {
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+
+                    // logout
+                    auth?.signOut()
+                    googleSignInClient?.signOut()
+
                     // Login
                     moveMainPage(task.result?.user)
                 } else {
