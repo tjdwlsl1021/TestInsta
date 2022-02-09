@@ -141,7 +141,7 @@ class LoginActivity : AppCompatActivity() {
             // user info
 
             // logout
-            LoginManager.getInstance().logOut();
+            LoginManager.getInstance().logOut()
 
             // move page
             start<MainActivity>()
@@ -177,9 +177,10 @@ class LoginActivity : AppCompatActivity() {
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
 
+                    // TODO: 2022/02/09 앱 종료전에 logout처리하기
                     // logout
-                    auth?.signOut()
-                    googleSignInClient?.signOut()
+//                    auth?.signOut()
+//                    googleSignInClient?.signOut()
 
                     // Login
                     moveMainPage(task.result?.user)
