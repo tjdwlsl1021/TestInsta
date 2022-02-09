@@ -53,6 +53,9 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
 
+    // Firebase storage
+    implementation 'com.google.firebase:firebase-storage'
+
     // Splitties
     implementation("com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0")
 
@@ -61,4 +64,8 @@ dependencies {
 
     // Facebook Login
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)' // [4,5)버전은 웹뷰 연결막힘
+
+    // Ted Permission
+    implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
 }
+

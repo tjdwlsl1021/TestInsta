@@ -1,12 +1,13 @@
 package com.example.testinsta
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testinsta.databinding.ActivityMainBinding
-import com.example.testinsta.navigation.AlarmFragment
-import com.example.testinsta.navigation.DetailViewFragment
-import com.example.testinsta.navigation.GridFragment
-import com.example.testinsta.navigation.UserFragment
+import com.example.testinsta.navigation.*
+import com.tedpark.tedpermission.rx2.TedRx2Permission
+import splitties.activities.start
+import splitties.toast.toast
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -18,7 +19,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initNavigationnBar()
+    }
 
+    @SuppressLint("CheckResult")
+    private fun checkPermission() {
+        TedRx2Permission.with(this)
+            .setPermissions(
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            )
+            .request()
+            .subscribe({ tedPermissionResult ->
+                if (tedPermissionResult.isGranted) {
+                    start<AddPhotoActivity>()
+                } else {
+                    toast("권한허용시 이용가능")
+                }
+            }, {
+            })
     }
 
     fun initNavigationnBar() {
@@ -37,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                             .commit()
                     }
                     R.id.action_add_photo -> {
-
+                        checkPermission()
                     }
                     R.id.action_favorite_alarm -> {
                         val alarmFragment = AlarmFragment()
