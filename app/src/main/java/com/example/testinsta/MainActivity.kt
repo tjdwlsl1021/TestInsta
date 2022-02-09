@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initNavigationnBar()
+
+        binding.bottomNavigation.selectedItemId = R.id.action_home
     }
 
     @SuppressLint("CheckResult")

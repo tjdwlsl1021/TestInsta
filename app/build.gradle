@@ -68,5 +68,8 @@ dependencies {
 
     // Ted Permission
     implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
 }
 
