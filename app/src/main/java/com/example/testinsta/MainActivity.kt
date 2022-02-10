@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testinsta.databinding.ActivityMainBinding
 import com.example.testinsta.navigation.*
+import com.google.firebase.auth.FirebaseAuth
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import splitties.activities.start
 import splitties.toast.toast
@@ -66,6 +67,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.action_account -> {
                         val userFragment = UserFragment()
+                        var bundle = Bundle()
+                        var uid = FirebaseAuth.getInstance().currentUser?.uid
+                        bundle.putString("destinationUid", uid)
+                        userFragment.arguments = bundle
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.main_content, userFragment)
                             .commit()
