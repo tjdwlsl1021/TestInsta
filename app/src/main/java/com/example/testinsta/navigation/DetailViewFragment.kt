@@ -1,7 +1,7 @@
 package com.example.testinsta.navigation
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DetailViewFragment : Fragment() {
-    private val TAG = "HSJ"
-
     var firestore: FirebaseFirestore? = null
     var uid: String? = null
 
@@ -30,7 +28,6 @@ class DetailViewFragment : Fragment() {
 
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
-        Log.d(TAG, "uid: $uid")
 
         binding.detailviewfragmentRecyclerview.adapter = DetailViewRecyclerViewAdapter()
 
@@ -78,6 +75,12 @@ class DetailViewFragment : Fragment() {
                 fragment.arguments = bundle
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.main_content, fragment)?.commit()
+            }
+
+            holder.binding.detailviewitemCommentImageview.setOnClickListener { v ->
+                val intent = Intent(v.context, CommentActivity::class.java)
+                intent.putExtra("contentUid", contentUidList[holder.bindingAdapterPosition])
+                startActivity(intent)
             }
             return holder
         }
