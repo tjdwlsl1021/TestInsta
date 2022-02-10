@@ -118,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun googleLogin() {
         val signInIntent = googleSignInClient?.signInIntent
-        getContent.launch(signInIntent) // 설정화면으로 이동
+        getContent.launch(signInIntent)
     }
 
     fun facebookLogin() {
