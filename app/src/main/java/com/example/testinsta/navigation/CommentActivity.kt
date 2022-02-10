@@ -12,13 +12,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.testinsta.R
 import com.example.testinsta.databinding.ActivityCommentBinding
+import com.example.testinsta.navigation.model.AlarmDTO
 import com.example.testinsta.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import splitties.toast.toast
 
 class CommentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCommentBinding
     var contentUid: String? = null
+    var destinationUid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,25 +30,42 @@ class CommentActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         contentUid = intent.getStringExtra("contentUid")
+        destinationUid = intent.getStringExtra("destinationUid")
 
         binding.commentRecyclerview.adapter = CommnetRecyclerviewAdapater()
         binding.commentRecyclerview.layoutManager = LinearLayoutManager(this)
 
         binding.commentBtnSend.setOnClickListener {
+            if (contentUid == null) {
+                toast("contentUid null => 진행X")
+                return@setOnClickListener
+            }
+            if (destinationUid == null) {
+                toast("destinationUid null => 진행X")
+                return@setOnClickListener
+            }
             val comment = ContentDTO.Comment()
             comment.userId = FirebaseAuth.getInstance().currentUser?.email
             comment.uid = FirebaseAuth.getInstance().currentUser?.uid
             comment.comment = binding.commentEditMessage.text.toString()
             comment.timestamp = System.currentTimeMillis()
 
-            try {
-                FirebaseFirestore.getInstance().collection("images").document(contentUid!!)
-                    .collection("comments").document().set(comment)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            FirebaseFirestore.getInstance().collection("images").document(contentUid!!)
+                .collection("comments").document().set(comment)
+
+            commentAlarm(destinationUid!!, binding.commentEditMessage.text.toString())
             binding.commentEditMessage.setText("")
         }
+    }
+
+    fun commentAlarm(destinationUid: String, message: String) {
+        val alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+        alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
+        alarmDTO.timestamp = System.currentTimeMillis()
+        alarmDTO.message = message
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
 
     inner class CommnetRecyclerviewAdapater : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

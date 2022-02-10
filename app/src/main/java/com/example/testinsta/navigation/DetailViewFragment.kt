@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.testinsta.R
 import com.example.testinsta.databinding.FragmentDetailBinding
 import com.example.testinsta.databinding.ItemDetailBinding
+import com.example.testinsta.navigation.model.AlarmDTO
 import com.example.testinsta.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -80,6 +81,7 @@ class DetailViewFragment : Fragment() {
             holder.binding.detailviewitemCommentImageview.setOnClickListener { v ->
                 val intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[holder.bindingAdapterPosition])
+                intent.putExtra("destinationUid", contentDTOs[holder.bindingAdapterPosition].uid)
                 startActivity(intent)
             }
             return holder
@@ -127,12 +129,23 @@ class DetailViewFragment : Fragment() {
                             } else {
                                 contentDTO.favoriteCount = contentDTO.favoriteCount + 1
                                 contentDTO.favorites[uid] = true
+                                favoriteAlarm(contentDTOs[position].uid!!)
                             }
                             transition.set(tsDoc, contentDTO)
                         }
                     }
                 }
             }
+        }
+
+        fun favoriteAlarm(destinationUid: String) {
+            val alarmDTO = AlarmDTO()
+            alarmDTO.destinationUid = destinationUid
+            alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+            alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
+            alarmDTO.kind = 0
+            alarmDTO.timestamp = System.currentTimeMillis()
+            FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
         }
     }
 }
