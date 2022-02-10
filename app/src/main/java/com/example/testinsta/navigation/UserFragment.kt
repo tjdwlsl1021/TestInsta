@@ -6,15 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.testinsta.LoginActivity
+import com.example.testinsta.MainActivity
 import com.example.testinsta.R
 import com.example.testinsta.navigation.model.ContentDTO
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import splitties.fragments.start
 
 class UserFragment : Fragment() {
 
@@ -22,6 +27,7 @@ class UserFragment : Fragment() {
     var firestore: FirebaseFirestore? = null
     var uid: String? = null
     var auth: FirebaseAuth? = null
+    var currentUserUid: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,9 +36,35 @@ class UserFragment : Fragment() {
     ): View? {
         fragmentView =
             LayoutInflater.from(activity).inflate(R.layout.fragment_user, container, false)
+
         uid = arguments?.getString("destinationUid")
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        currentUserUid = auth?.currentUser?.uid
+
+        if (uid == currentUserUid) {
+            fragmentView?.findViewById<AppCompatButton>(R.id.account_btn_follow_signout)?.text =
+                getString(R.string.signout)
+            fragmentView?.findViewById<AppCompatButton>(R.id.account_btn_follow_signout)
+                ?.setOnClickListener {
+                    activity?.finish()
+                    start<LoginActivity>()
+                    auth?.signOut()
+                }
+        } else {
+            fragmentView?.findViewById<AppCompatButton>(R.id.account_btn_follow_signout)?.text =
+                getString(R.string.follow)
+            val mainactivity = (activity as MainActivity)
+            mainactivity.findViewById<TextView>(R.id.toolbar_username)?.text =
+                arguments?.getString("userId")
+            mainactivity.findViewById<ImageView>(R.id.toolbar_btn_back)?.setOnClickListener {
+                mainactivity.findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId =
+                    R.id.action_home
+            }
+            mainactivity.findViewById<ImageView>(R.id.toolbar_title_image)?.visibility = View.GONE
+            mainactivity.findViewById<TextView>(R.id.toolbar_username)?.visibility = View.VISIBLE
+            mainactivity.findViewById<ImageView>(R.id.toolbar_btn_back)?.visibility = View.VISIBLE
+        }
 
         fragmentView?.findViewById<RecyclerView>(R.id.account_recyclerview)?.adapter =
             UserFragmentRecyclerViewAdapter()

@@ -56,7 +56,7 @@ class DetailViewFragment : Fragment() {
                             }
                             notifyDataSetChanged()
                         }
-                    }
+                    } ?: return@addSnapshotListener
                 }
         }
 
@@ -69,6 +69,15 @@ class DetailViewFragment : Fragment() {
             val holder = CustomViewHolder(binding)
             holder.binding.detailviewitemFavoriteImageview.setOnClickListener {
                 favoriteEvent(holder.bindingAdapterPosition)
+            }
+            holder.binding.detailviewitemProfileImage.setOnClickListener {
+                val fragment = UserFragment()
+                val bundle = Bundle()
+                bundle.putString("destinationUid", contentDTOs[holder.bindingAdapterPosition].uid)
+                bundle.putString("userId", contentDTOs[holder.bindingAdapterPosition].userId)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.main_content, fragment)?.commit()
             }
             return holder
         }

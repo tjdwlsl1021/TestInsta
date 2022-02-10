@@ -2,6 +2,7 @@ package com.example.testinsta
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testinsta.databinding.ActivityMainBinding
 import com.example.testinsta.navigation.*
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     fun initNavigationnBar() {
         binding.bottomNavigation.run {
             setOnItemSelectedListener { item ->
+                setToolbarDefault()
+
                 when (item.itemId) {
                     R.id.action_home -> {
                         val detailViewFragment = DetailViewFragment()
@@ -80,5 +83,11 @@ class MainActivity : AppCompatActivity() {
             }
             selectedItemId = R.id.action_home
         }
+    }
+
+    fun setToolbarDefault() {
+        binding.toolbarUsername.visibility = View.GONE
+        binding.toolbarBtnBack.visibility = View.GONE
+        binding.toolbarTitleImage.visibility = View.VISIBLE
     }
 }

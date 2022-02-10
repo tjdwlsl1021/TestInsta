@@ -69,6 +69,11 @@ class LoginActivity : AppCompatActivity() {
         callbackManager = CallbackManager.Factory.create()
     }
 
+    override fun onStart() {
+        super.onStart()
+        moveMainPage(auth?.currentUser)
+    }
+
     fun signinAndSignup() {
         auth?.createUserWithEmailAndPassword(
             binding.emailEdittext.text.toString(),
@@ -107,6 +112,7 @@ class LoginActivity : AppCompatActivity() {
     fun moveMainPage(user: FirebaseUser?) {
         if (user != null) {
             start<MainActivity>()
+            finish()
         }
     }
 
