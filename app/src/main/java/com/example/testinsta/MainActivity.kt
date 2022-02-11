@@ -32,6 +32,14 @@ class MainActivity : AppCompatActivity() {
         registerPushToken()
     }
 
+    /* 푸시 전송 확인 테스트용
+    override fun onStop() {
+        super.onStop()
+
+        // 파베 인증 사용자 UID!!
+        FcmPush.instance.sendMessage("7U2ufBXjjTaeY7hgDISFo0QBBrq1", "hi","bye")
+    }*/
+
     @SuppressLint("CheckResult")
     private fun checkPermission() {
         TedRx2Permission.with(this)
@@ -105,6 +113,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             val token = task.result
+            Log.d(TAG, "token: $token")
             val map = mutableMapOf<String, Any>()
             map["pushtoken"] = token
 

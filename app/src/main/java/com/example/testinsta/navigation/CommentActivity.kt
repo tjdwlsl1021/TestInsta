@@ -14,6 +14,7 @@ import com.example.testinsta.R
 import com.example.testinsta.databinding.ActivityCommentBinding
 import com.example.testinsta.navigation.model.AlarmDTO
 import com.example.testinsta.navigation.model.ContentDTO
+import com.example.testinsta.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import splitties.toast.toast
@@ -67,6 +68,10 @@ class CommentActivity : AppCompatActivity() {
         alarmDTO.timestamp = System.currentTimeMillis()
         alarmDTO.message = message
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+        val msg =
+            "${FirebaseAuth.getInstance().currentUser?.email} ${getString(R.string.alarm_comment)} of $message"
+        FcmPush.instance.sendMessage(destinationUid, "TestInstagram", msg)
     }
 
     inner class CommnetRecyclerviewAdapater : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

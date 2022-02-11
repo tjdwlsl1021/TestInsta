@@ -15,6 +15,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -81,5 +82,14 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
+
+    // Okhttp
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    // Multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
 

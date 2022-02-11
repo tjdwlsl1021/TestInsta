@@ -23,6 +23,7 @@ import com.example.testinsta.R
 import com.example.testinsta.navigation.model.AlarmDTO
 import com.example.testinsta.navigation.model.ContentDTO
 import com.example.testinsta.navigation.model.FollowDTO
+import com.example.testinsta.util.FcmPush
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -178,6 +179,10 @@ class UserFragment : Fragment() {
         alarmDTO.kind = 2
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+        val message =
+            "${FirebaseAuth.getInstance().currentUser?.email} ${getString(R.string.alarm_follow)}"
+        FcmPush.instance.sendMessage(destinationUid, "TestInstagram", message)
     }
 
     fun getProfileImage() {
