@@ -46,16 +46,26 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
-    // Firebase Auth
+
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Firebase Auth
     implementation 'com.google.firebase:firebase-auth'
 
     // Firebase storage
     implementation 'com.google.firebase:firebase-storage'
+
+    // Firebase Firestore
     implementation 'com.google.firebase:firebase-firestore'
+
+    // Firebase Messasing
+    implementation 'com.google.firebase:firebase-messaging'
+
+    // Firebase Analytics
+    implementation 'com.google.firebase:firebase-analytics'
 
     // Splitties
     implementation("com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0")

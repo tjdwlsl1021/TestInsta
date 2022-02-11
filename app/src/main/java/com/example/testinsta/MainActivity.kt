@@ -2,16 +2,22 @@ package com.example.testinsta
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testinsta.databinding.ActivityMainBinding
 import com.example.testinsta.navigation.*
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.tedpark.tedpermission.rx2.TedRx2Permission
 import splitties.activities.start
 import splitties.toast.toast
 
 class MainActivity : AppCompatActivity() {
+    private val TAG = "MainActivity"
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         initNavigationnBar()
 
         binding.bottomNavigation.selectedItemId = R.id.action_home
+        registerPushToken()
     }
 
     @SuppressLint("CheckResult")
@@ -90,4 +97,23 @@ class MainActivity : AppCompatActivity() {
         binding.toolbarBtnBack.visibility = View.GONE
         binding.toolbarTitleImage.visibility = View.VISIBLE
     }
+
+    fun registerPushToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            val token = task.result
+            val map = mutableMapOf<String, Any>()
+            map["pushtoken"] = token
+
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            uid?.let {
+                FirebaseFirestore.getInstance().collection("pushtokens").document(uid).set(map)
+            } ?: Log.d(TAG, "uid == null")
+        })
+    }
+
+
 }
